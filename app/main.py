@@ -11,6 +11,8 @@ class Item(BaseModel):
     price: float
     in_stock: Union[bool, None] = None
 
+items = []
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
