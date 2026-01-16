@@ -5,7 +5,9 @@ from pydantic import BaseModel
 app = FastAPI()
 
 class Item(BaseModel):
+    id: int
     name: str
+    description: str
     price: float
     in_stock: Union[bool, None] = None
 
