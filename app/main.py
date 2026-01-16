@@ -34,4 +34,17 @@ def create_item(item_id: int, item: Item):
 
 @app.put("/items/{item_id}")
 def update_item(item_id: int, item: Item):
-    return {"item_name": item.name, "item_id": item_id}
+    if item_id < len(items):  
+        item.id = item_id
+        items[item_id] = item
+    else:
+        raise HTTPException(status_code=404, detail=f"Item of id {item_id} not found")
+    return items
+
+@app.delete("/items/{item_id}")
+def delete_item(item_id: int):
+    if item_id < len(items):
+        items.remove(items[item_id])    
+    else:
+        raise HTTPException(status_code=404, detail=f"Item of id {item_id} Not found")
+    return {"Message": f"Item {item_id} deleted successfully"}
