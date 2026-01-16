@@ -20,8 +20,17 @@ def read_all_items():
     return items
 
 @app.get("/items/{item_id}")
-def read_item(item_id : int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+def read_item(item_id : int) -> Item:
+    if item_id < len(items):
+        return items[item_id]
+    else:
+        raise HTTPException(status_code=404, detail=f"Item of id {item_id} Not Found")
+        
+@app.post("/items")
+def create_item(item_id: int, item: Item):
+    item.id = item_id
+    items.append(item)
+    return items
 
 @app.put("/items/{item_id}")
 def update_item(item_id: int, item: Item):
