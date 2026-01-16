@@ -14,8 +14,8 @@ def read_root():
     return {"Hello": "World"}
 
 @app.get("/items")
-def read_all_items(item_id:int , q: Union[str, None] = None):
-    pass
+def read_all_items():
+    return items
 
 @app.get("/items/{item_id}")
 def read_item(item_id : int, q: Union[str, None] = None):
