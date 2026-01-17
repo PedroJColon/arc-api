@@ -22,12 +22,13 @@ def read_all_items():
     return items
 
 @app.get("/items/{item_id}")
-def read_item(item_id : int) -> Item:
-    if item_id < len(items):
+def read_item_id(item_id : int, in_stock: bool = True) -> Item:
+    if item_id < len(items) and in_stock:
         return items[item_id]
     else:
-        raise HTTPException(status_code=404, detail=f"Item of id {item_id} Not Found")
-        
+        raise HTTPException(status_code=404, detail=f"Item of id {item_id} Not Found or query parameter is invalid")
+
+
 @app.post("/items")
 def create_item(item_id: int, item: Item):
     item.id = item_id
