@@ -33,11 +33,16 @@ def read_item_id(item_id : int, in_stock: bool = True) -> Item:
 def create_item(item_id: int, item_name: str, item_description: str,
     item_price: float, item_in_stock: bool, item: Item):
     item.id = item_id
+    item.name = item_name
+    item.description = item_description
+    item.price = item_price
+    item.in_stock = item_in_stock
     items.append(item)
     return items
 
 @app.put("/items/{item_id}")
-def update_item(item_id: int, item: Item):
+def update_item(item_id: int, item_name: str, item_description: str,
+    item_price: float, item_in_stock: bool, item: Item):
     if item_id < len(items):  
         item.id = item_id
         item.id = item_id
