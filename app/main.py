@@ -30,7 +30,8 @@ def read_item_id(item_id : int, in_stock: bool = True) -> Item:
 
 
 @app.post("/items")
-def create_item(item_id: int, item: Item):
+def create_item(item_id: int, item_name: str, item_description: str,
+    item_price: float, item_in_stock: bool, item: Item):
     item.id = item_id
     items.append(item)
     return items
