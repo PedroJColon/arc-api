@@ -40,6 +40,11 @@ def create_item(item_id: int, item_name: str, item_description: str,
 def update_item(item_id: int, item: Item):
     if item_id < len(items):  
         item.id = item_id
+        item.id = item_id
+        item.name = item_name
+        item.description = item_description
+        item.price = item_price
+        item.in_stock = item_in_stock
         items[item_id] = item
     else:
         raise HTTPException(status_code=404, detail=f"Item of id {item_id} not found")
