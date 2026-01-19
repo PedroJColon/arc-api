@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Annotated, Union
 from fastapi import FastAPI, HTTPException, Depends, Query
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from pydantic import BaseModel
