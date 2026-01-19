@@ -40,13 +40,13 @@ def create_hero(hero: Hero, session: SessionDep) -> Hero:
 
 
 # class Item(BaseModel):
-    id: int
-    name: str
-    description: str
-    price: float
-    in_stock: Union[bool, None] = None
+#     id: int
+#     name: str
+#     description: str
+#     price: float
+#     in_stock: Union[bool, None] = None
 
-items = []
+# items = []
 
 # @app.get("/")
 # def read_root():
@@ -75,25 +75,25 @@ items = []
 #     items.append(item)
 #     return items
 
-@app.put("/items/{item_id}")
-def update_item(item_id: int, item_name: str, item_description: str,
-    item_price: float, item_in_stock: bool, item: Item):
-    if item_id < len(items):  
-        item.id = item_id
-        item.id = item_id
-        item.name = item_name
-        item.description = item_description
-        item.price = item_price
-        item.in_stock = item_in_stock
-        items[item_id] = item
-    else:
-        raise HTTPException(status_code=404, detail=f"Item of id {item_id} not found")
-    return items
+# @app.put("/items/{item_id}")
+# def update_item(item_id: int, item_name: str, item_description: str,
+#     item_price: float, item_in_stock: bool, item: Item):
+#     if item_id < len(items):  
+#         item.id = item_id
+#         item.id = item_id
+#         item.name = item_name
+#         item.description = item_description
+#         item.price = item_price
+#         item.in_stock = item_in_stock
+#         items[item_id] = item
+#     else:
+#         raise HTTPException(status_code=404, detail=f"Item of id {item_id} not found")
+#     return items
 
-@app.delete("/items/{item_id}")
-def delete_item(item_id: int):
-    if item_id < len(items):
-        items.remove(items[item_id])    
-    else:
-        raise HTTPException(status_code=404, detail=f"Item of id {item_id} Not found")
-    return {"Message": f"Item {item_id} deleted successfully"}
+# @app.delete("/items/{item_id}")
+# def delete_item(item_id: int):
+#     if item_id < len(items):
+#         items.remove(items[item_id])    
+#     else:
+#         raise HTTPException(status_code=404, detail=f"Item of id {item_id} Not found")
+#     return {"Message": f"Item {item_id} deleted successfully"}
