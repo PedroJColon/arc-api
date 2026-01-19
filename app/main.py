@@ -1,9 +1,9 @@
 from typing import Annotated, Union
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Depends, Query
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from pydantic import BaseModel
 
-app = FastAPI()
 
 # SQL Engine
 sqlite_file_name = "database.db"
@@ -15,8 +15,14 @@ engine = create_engine(sqlite_url, connect_args=connect_args)
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    create_db_and_tables()
+    yield
+    print("Shutdown")
 
 
+app = FastAPI(lifespan=lifespan)
 
 # class Item(BaseModel):
 #     id: int
