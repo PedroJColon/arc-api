@@ -1,9 +1,5 @@
-from typing import Annotated, Union
-from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Depends, Query
 from sqlmodel import Field, Session, SQLModel, create_engine, select
-from pydantic import BaseModel
-
 
 # SQL Engine
 sqlite_file_name = "database.db"
