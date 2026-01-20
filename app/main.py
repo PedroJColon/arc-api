@@ -27,11 +27,38 @@ app = FastAPI()
 @app.on_event("startup")
 def on_startup():
     create_db_and_tables()
-    yield
-    print("Shutdown")
 
+@app.post("/items/", response_model=Item)
+def create_item(item: Item):
+    with Session(engine) as session:
+        session.add(item)
+        session.commit()
+        session.refresh(item)
+        return item
 
-app = FastAPI(lifespan=lifespan)
+@app.get("/items/", response_model=list[Item])
+def read_items():
+    with Session(engine) as session:
+        items = session.exec(select(Item)).all()
+        return items
+    
+@app.get("/items/{item_id}", response_model=Item)
+def read_selected_item(item_id: int, in_stock_field: bool = True):
+    with Session(engine) as session:
+        item = session.get(Item, item_id | in_stock_field,)
+        if not item:
+            raise HTTPException(status_code=404, detail=f"Item of id {item_id} not Found")
+        return item
+
+@app.delete("/items/{item_id}", response_model=Item)
+def delete_item(item_id: int):
+    with Session(engine) as session:
+        item = session.get(Item, item_id)
+        if not item:
+            raise HTTPException(status_code=404, detail=f"Item of id {item_id} not Found")
+        session.delete(item)
+        session.commit()
+        return {"Ok": True}
 
 # class Item(BaseModel):
 #     id: int
