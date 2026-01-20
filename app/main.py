@@ -15,8 +15,17 @@ engine = create_engine(sqlite_url, connect_args=connect_args)
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
+class Item(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    name: str = Field(index=True)
+    description: str
+    price: float = Field(index=True)
+    in_stock: bool | None = Field(default=None, index=True)    
+
+app = FastAPI()
+
+@app.on_event("startup")
+def on_startup():
     create_db_and_tables()
     yield
     print("Shutdown")
