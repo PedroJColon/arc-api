@@ -11,12 +11,11 @@ engine = create_engine(sqlite_url, connect_args=connect_args)
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
-class Item(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+class ItemBase(SQLModel):
     name: str = Field(index=True)
     description: str
-    price: float = Field(index=True)
-    in_stock: bool | None = Field(default=None, index=True)    
+    price: float = Field(default=None, index=True)
+    in_stock: bool | None = Field(default=None, index=True)
 
 app = FastAPI()
 
