@@ -59,8 +59,22 @@ def read_selected_item(item_id: int):
         if not item:
             raise HTTPException(status_code=404, detail=f"Item of id {item_id} not Found")
         return item
+    
+@app.patch("/items/{item_id}", response_model=ItemPublic)
+def update_item(item_id: int, item: ItemUpdate):
+    with Session(engine) as session:
+        current_item = session.get(Item, item_id)
+        if not current_item:
+            raise HTTPException(status_code=404, detail="Hero Not Found")
+        item_data = item.model_dump(exclude_unset=True)
+        current_item.sqlmodel_update(item_data)
+        session.add(current_item)
+        session.commit()
+        session.refresh(current_item)
+        return current_item
+        
 
-@app.delete("/items/{item_id}", response_model=Item)
+@app.delete("/items/{item_id}")
 def delete_item(item_id: int):
     with Session(engine) as session:
         item = session.get(Item, item_id)
