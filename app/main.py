@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
-from sqlmodel import Field, Session, SQLModel, create_engine, select
+from sqlmodel import Session, SQLModel, create_engine, select
+import models as api_models
 
 # SQL Engine
 sqlite_file_name = "database.db"
@@ -11,59 +12,38 @@ engine = create_engine(sqlite_url, connect_args=connect_args)
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
-class ItemBase(SQLModel):
-    name: str = Field(index=True)
-    description: str
-    price: float = Field(default=None, index=True)
-    in_stock: bool | None = Field(default=None, index=True)
-
-class Item(ItemBase, table=True):
-    id: int | None = Field(default=None, primary_key=True)
-
-class ItemCreate(ItemBase):
-    pass
-
-class ItemPublic(ItemBase):
-    id: int
-
-class ItemUpdate(SQLModel):
-    name: str | None = None
-    description: str | None = None
-    price: float | None = None
-    
-
 app = FastAPI()
 
 @app.on_event("startup")
 def on_startup():
     create_db_and_tables()
 
-@app.post("/items/", response_model=Item)
-def create_item(item: Item):
+@app.post("/items/", response_model=api_models.Item)
+def create_item(item: api_models.Item):
     with Session(engine) as session:
         session.add(item)
         session.commit()
         session.refresh(item)
         return item
 
-@app.get("/items/", response_model=list[ItemPublic])
+@app.get("/items/", response_model=list[api_models.ItemPublic])
 def read_items():
     with Session(engine) as session:
-        items = session.exec(select(Item)).all()
+        items = session.exec(select(api_models.Item)).all()
         return items
     
-@app.get("/items/{item_id}", response_model=ItemPublic)
+@app.get("/items/{item_id}", response_model=api_models.ItemPublic)
 def read_selected_item(item_id: int):
     with Session(engine) as session:
-        item = session.get(Item, item_id)
+        item = session.get(api_models.Item, item_id)
         if not item:
             raise HTTPException(status_code=404, detail=f"Item of id {item_id} not Found")
         return item
     
-@app.patch("/items/{item_id}", response_model=ItemPublic)
-def update_item(item_id: int, item: ItemUpdate):
+@app.patch("/items/{item_id}", response_model=api_models.ItemPublic)
+def update_item(item_id: int, item: api_models.ItemUpdate):
     with Session(engine) as session:
-        current_item = session.get(Item, item_id)
+        current_item = session.get(api_models.Item, item_id)
         if not current_item:
             raise HTTPException(status_code=404, detail="Hero Not Found")
         item_data = item.model_dump(exclude_unset=True)
@@ -77,7 +57,7 @@ def update_item(item_id: int, item: ItemUpdate):
 @app.delete("/items/{item_id}")
 def delete_item(item_id: int):
     with Session(engine) as session:
-        item = session.get(Item, item_id)
+        item = session.get(api_models.Item, item_id)
         if not item:
             raise HTTPException(status_code=404, detail=f"Item of id {item_id} not Found")
         session.delete(item)
