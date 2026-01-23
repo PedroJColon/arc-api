@@ -17,6 +17,21 @@ class ItemBase(SQLModel):
     price: float = Field(default=None, index=True)
     in_stock: bool | None = Field(default=None, index=True)
 
+class Item(ItemBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+
+class ItemCreate(ItemBase):
+    pass
+
+class ItemPublic(ItemBase):
+    id: int
+
+class ItemUpdate(SQLModel):
+    name: str | None = None
+    description: str | None = None
+    price: float | None = None
+    
+
 app = FastAPI()
 
 @app.on_event("startup")
