@@ -52,10 +52,10 @@ def read_items():
         items = session.exec(select(Item)).all()
         return items
     
-@app.get("/items/{item_id}", response_model=Item)
-def read_selected_item(item_id: int, in_stock_field: bool = True):
+@app.get("/items/{item_id}", response_model=ItemPublic)
+def read_selected_item(item_id: int):
     with Session(engine) as session:
-        item = session.get(Item, item_id | in_stock_field,)
+        item = session.get(Item, item_id)
         if not item:
             raise HTTPException(status_code=404, detail=f"Item of id {item_id} not Found")
         return item
