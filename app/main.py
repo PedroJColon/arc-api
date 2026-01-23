@@ -26,13 +26,14 @@ def on_startup():
     create_db_and_tables()
 
 # Create item and have it be saved to sql database thanks to session and engine
-@app.post("/items/", response_model=api_models.Item)
-def create_item(item: api_models.Item):
+@app.post("/items/", response_model=api_models.ItemPublic)
+def create_item(item: api_models.ItemCreate):
     with Session(engine) as session:
-        session.add(item)
+        db_item = api_models.Item.model_validate(item)
+        session.add(db_item)
         session.commit()
-        session.refresh(item)
-        return item
+        session.refresh(db_item)
+        return db_item
 
 # Read all items, no limits given for this smaller scale project. Might be added in quick patch
 @app.get("/items/", response_model=list[api_models.ItemPublic])
