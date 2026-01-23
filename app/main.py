@@ -46,7 +46,7 @@ def create_item(item: Item):
         session.refresh(item)
         return item
 
-@app.get("/items/", response_model=list[Item])
+@app.get("/items/", response_model=list[ItemPublic])
 def read_items():
     with Session(engine) as session:
         items = session.exec(select(Item)).all()
