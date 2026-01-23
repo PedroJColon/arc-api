@@ -1,5 +1,9 @@
 from sqlmodel import Field, SQLModel
 
+# Follows FastAPI documentations of SQLModels
+# Link: https://fastapi.tiangolo.com/tutorial/sql-databases/
+# Additional Link: https://sqlmodel.tiangolo.com/tutorial/fastapi/multiple-models/#review-creation-schema
+
 class ItemBase(SQLModel):
     name: str = Field(index=True)
     description: str
