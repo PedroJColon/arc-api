@@ -23,3 +23,4 @@ class ItemUpdate(SQLModel):
     name: str | None = None
     description: str | None = None
     price: float | None = None
+    in_stock: bool  | None = None
