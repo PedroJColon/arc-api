@@ -1,10 +1,10 @@
 # Arc-API
 A RESTful API backend service using FASTAPI, designed to Create, Read, Update, and Delete requests for Items.
 
-## What does this do?
-What it does is simple: As the server is on, you are able to send requests to create, read, update, and delete items from a SQLite database.
+## What is the purpose of Arc-API?
+The purpose of Arc-API is simple: Sending requests to create, read, update, and delete items into a SQLite database.
 The SQLite database is a local file that will save data from item resources data sent, allowing you to read the data within that file as well.
-This repo is MOSTLY up-to-date with FastAPI, with one feature being used that while still works is depricated.
+This repo is MOSTLY up-to-date with FastAPI, with one feature being deprecated. This api will eventually make the change to lifespan events as suggested within Fastapi documentation.
 
 ## How to run locally:
 1. Clone the repo
