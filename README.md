@@ -16,7 +16,34 @@ This repo is up-to-date with FastAPI.
 NOTE: To view db file, you would want a program that is able to read databases. I used DBCode on VSCode to see if it was working.
 
 ## Main Python File
-The main python file handles the lifespan of the application, the 
+The main python file handles the lifespan of the application and the CRUD operations needed to create, read, update, anddelete.
+
+lifespan - Handles the lifespan of the application. If there is no database, it will create and read from that database. If there is, it will simply read the database.
+
+create_item = Create a unique item that will be added to the database. Uses post.
+
+read_items = Read all items within the database file. Uses get.
+
+read_selected_item = Read a item based on item_id given. Uses get.
+
+delete_item = Delete item based on item_id given. Uses delete.
+
+update_item = Update item with new json data by giving a item_id to apply those changes to. Uses patch.
 
 ## Models Python File
+Models.py holds the structure of the models objects, data that is important for the item to have like name, price, in_stock and description. Item ID is setup after the item is made, which becomes the public key needed to read the item.
+
+ItemBase - The base for the item data.
+
+Item - Extends ItemBase to give ID number for easy access of Item.
+
+ItemUpdate - Handles new data to replace the old data.
+
+## Test Main File
+test_main.py is a unit test file to test out the API via small unit test to see if any error could occur.
+
+## Limitations
+As of now, it is currently limited to simply text for items. No images, no GUI connected, just a simple API connection. Overtime, having a GUI app connect to the API and doing CRUD operations via the GUI will be a goal that would make the app much more accessible to more people.
+
+
 
