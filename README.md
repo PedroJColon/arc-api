@@ -43,7 +43,6 @@ ItemUpdate - Handles new data to replace the old data.
 test_main.py is a unit test file to test out the API via small unit test to see if any error could occur.
 
 ## Limitations
-As of now, it is currently limited to simply text for items. No images, no GUI connected, just a simple API connection. Overtime, having a GUI app connect to the API and doing CRUD operations via the GUI will be a goal that would make the app much more accessible to more people.
+As of now, it is currently limited to simply text for items. No images, no GUI connected, just a simple API connection. Overtime, having a GUI app connect to the API and doing CRUD operations via the GUI will be a goal that would make the app much more accessible to more people. The documentation is currently small mainly due to heavy usage of FastAPI, which link will be provided for how it is used.
 
-
-
+Link for FastAPI docs: https://fastapi.tiangolo.com/
